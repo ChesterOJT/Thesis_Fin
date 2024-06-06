@@ -11,7 +11,7 @@
     />
 
     <!--========== CSS ==========-->
-    <link rel="stylesheet" href="./css/acc-mng.css" />
+    <link rel="stylesheet" href="./css/messages-admin.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/boxicons/2.0.7/css/boxicons.min.css"
@@ -103,52 +103,14 @@
 
     <!--========== CONTENTS ==========-->
     <main>
-      <div class="details">
-        <div class="recentOrders">
-          <div class="cardHeader">
-            <h2>Accounts</h2>
-            <div class="search">
-              <label>
-                <input type="text" placeholder="Search here" />
-                <ion-icon name="search-outline"></ion-icon>
-              </label>
-            </div>
-            <div class="btn-contain">
-              <a href="#" class="btn" id="refreshBtn">Refresh</a>
-              <a href="#" class="btn" id="addUserBtn">Add User</a>
-              <a href="#" class="btn">View All</a>
-            </div>
-          </div>
-
-          <table id="userTable">
-            <thead>
-              <tr>
-                <th>Email</th>
-                <th>Display Name</th>
-                <th>Password</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="userList"></tbody>
-          </table>
-        </div>
-      </div>
-      <div class="overlay" id="overlay">
-        <div class="overlay-content">
-          <h2>Add User</h2>
-          <form id="addUserForm">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required />
-            <label for="displayName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" required />
-            <label for="displayName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" required />
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required />
-            <button type="submit">Add User</button>
-          </form>
-          <button id="closeOverlay">Close</button>
-        </div>
+      <div class="message-container">
+        <div id="messages" class="messages"></div>
+        <textarea
+          id="messageInput"
+          class="message-input"
+          placeholder="Type your message here..."
+        ></textarea>
+        <button onclick="sendMessage()" class="send-button">Send</button>
       </div>
     </main>
 
@@ -165,7 +127,7 @@
       nomodule
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
-    <script src="./js/acc-mng.js"></script>
+    <script src="./js/messages-admin.js"></script>
     <script src="./js/sidebar.js"></script>
   </body>
 </html>

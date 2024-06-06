@@ -17,32 +17,44 @@ document.addEventListener("DOMContentLoaded", function () {
   firebase.initializeApp(firebaseConfig);
 
   // Reference to the form element
-  const loginForm = document.getElementById("loginform");
-
-  // Listen for form submit
-  loginForm.addEventListener("submit", function (e) {
-    // Prevent the default form submit behavior
+  const database = firebase.database();
+  // Login Form Submission
+  document.getElementById("loginform").addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // Get the email and password from the form
-    const email = document.querySelector('input[name="username"]').value;
-    const password = document.querySelector('input[name="password"]').value;
+    const loginEmail = document.getElementById("textInput").value;
+    const loginPassword = document.getElementById("passwordInput").value;
 
-    // Sign in with email and password
     firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in
-        // Redirect to the main page or dashboard
-        window.location.href = "home.html"; // Change this URL to your main page
+      .database()
+      .ref("users")
+      .orderByChild("email")
+      .equalTo(loginEmail)
+      .once("value", (snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach((childSnapshot) => {
+            const userData = childSnapshot.val();
+            if (userData.password === loginPassword) {
+              alert("Login successful!");
+              console.log("Login successful!");
+
+              // Store user email in localStorage
+              localStorage.setItem("userEmail", userData.email);
+
+              // Optionally, redirect the user to another page after successful login.
+              window.location.href = "./../home/home-cust.html";
+            } else {
+              alert("Invalid password!");
+              console.error("Invalid password!");
+            }
+          });
+        } else {
+          alert("User does not exist!");
+          console.error("User does not exist!");
+        }
       })
       .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // Display an error message to the user or log it
-        console.error("Error signing in:", "Wrong Email or Password");
-        alert("Error signing in: " + "Wrong Email or Password"); // Simple error alert, consider a more user-friendly approach
+        console.error(error);
       });
   });
 });
@@ -68,3 +80,23 @@ eyeIcon.addEventListener("click", function () {
     eyeIcon.classList.add("bx-show");
   }
 });
+
+function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((result) => {
+      // Signed in successfully, access user information
+      const user = result.user;
+      console.log("User signed in:", user);
+      // Redirect user to home page or desired location
+      window.location.href = "home.html"; // Change URL to your home page
+    })
+    .catch((error) => {
+      // Handle errors
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Sign in error:", errorMessage);
+    });
+}

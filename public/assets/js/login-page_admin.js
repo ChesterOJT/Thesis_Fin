@@ -33,15 +33,40 @@ document.addEventListener("DOMContentLoaded", function () {
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // Signed in
+        const userEmail = userCredential.user.email;
+        localStorage.setItem("userEmail", userEmail); // Store email in localStorage
+
         // Redirect to the main page or dashboard
-        window.location.href = "home.html"; // Change this URL to your main page
+        window.location.href = "./../home/home-admin.html";
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         // Display an error message to the user or log it
-        console.error("Error signing in:", "Wrong Email or Password");
-        alert("Error signing in: " + "Wrong Email or Password"); // Simple error alert, consider a more user-friendly approach
+        console.error("Error signing in:", errorCode, errorMessage);
+        alert("Error signing in: " + errorMessage); // Simple error alert, consider a more user-friendly approach
       });
   });
+});
+document.getElementById("textInput").addEventListener("focus", function () {
+  document.getElementById("envelopeIcon").style.color = "lightblue";
+});
+
+document.getElementById("textInput").addEventListener("blur", function () {
+  document.getElementById("envelopeIcon").style.color = "#000"; // Change back to initial color when focus is lost
+});
+
+const passwordInput = document.getElementById("passwordInput");
+const eyeIcon = document.getElementById("eyeIcon");
+
+eyeIcon.addEventListener("click", function () {
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    eyeIcon.classList.remove("bx-show");
+    eyeIcon.classList.add("bx-hide");
+  } else {
+    passwordInput.type = "password";
+    eyeIcon.classList.remove("bx-hide");
+    eyeIcon.classList.add("bx-show");
+  }
 });

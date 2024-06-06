@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./assets/css/loginpage_cust.css" />
+    <link rel="stylesheet" href="../assets/css/loginpage_cust.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
@@ -11,13 +11,15 @@
     <title>IOT Solar Power UPS Website</title>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
   </head>
   <body>
     <div class="loginmain">
       <div class="logincontainer">
         <div class="loginform">
           <div class="pic">
-            <img class="logou" src="./assets/img/logo.png" />
+            <img class="logou" src="../assets/img/logo.png" />
           </div>
           <h2>Customer Login</h2>
         </div>
@@ -45,10 +47,10 @@
           <div class="remember-alignment">
             <div class="remember-forgot">
               <label><input type="checkbox" />Remember Password</label>
-              <a href="#">Forgot Password?</a>
+              <a href="../forgotpass.html">Forgot Password?</a>
             </div>
           </div>
-          <div class="loginbutton">
+          <div class="loginbutton" id="loginbutton">
             <button class="btn" type="submit">Login</button>
           </div>
           <div class="loginregister">
@@ -62,14 +64,14 @@
               <i class="bx bxl-facebook-circle"></i>
             </a>
           </div>
-          <div class="loginWithGoogle">
-            <a class="googleIcon" href="www.google.com">
+          <div class="loginWithGoogle" id="google-login-btn">
+            <a class="googleIcon" href="#" onclick="signInWithGoogle()">
               <i class="bx bxl-google"></i>
             </a>
           </div>
         </div>
       </div>
     </div>
-    <script src="./assets/js/loginpage_cust.js"></script>
+    <script src="../assets/js/loginpage_cust.js"></script>
   </body>
 </html>

@@ -35,6 +35,8 @@ function fetchAndUpdateUserList() {
               <td>${user.email}</td>
               <td>${user.firstName}</td>
               <td>${user.password}</td>
+              <td>
+              <button onclick="editUser('${userId}', '${user.email}', '${user.password}')">Edit</button><button onclick="deleteUser('${userId}')">Delete</button></td>
             `;
           userList.appendChild(row);
         }
@@ -43,6 +45,44 @@ function fetchAndUpdateUserList() {
     .catch((error) => {
       console.error("Error fetching users:", error);
     });
+}
+
+// Function to delete a user
+function deleteUser(userId) {
+  if (confirm("Are you sure you want to delete this user?")) {
+    // Delete user data from Firebase
+    database
+      .ref("users/" + userId)
+      .remove()
+      .then(() => {
+        // Once user is deleted, refresh the user list
+        fetchAndUpdateUserList();
+      })
+      .catch((error) => {
+        console.error("Error deleting user:", error);
+      });
+  }
+}
+function editUser(userId, email, password) {
+  const newEmail = prompt("Enter new email:", email);
+  const newPassword = prompt("Enter new password:", password);
+
+  if (newEmail !== null && newPassword !== null) {
+    // Update user in database
+    database
+      .ref(`users/${userId}`)
+      .update({
+        email: newEmail,
+        password: newPassword,
+      })
+      .then(() => {
+        // Refresh user list after update
+        fetchAndUpdateUserList();
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+      });
+  }
 }
 
 // Event listener for refresh button
@@ -103,6 +143,8 @@ registrationForm.addEventListener("submit", function (event) {
     .then(function (userCredential) {
       // Signed in
       const user = userCredential.user;
+
+      sendVerificationEmail(user);
       // Save additional user data to database
       saveUserData(user.uid, firstName, lastName, email, password);
       alert("Registration successful");
@@ -116,6 +158,19 @@ registrationForm.addEventListener("submit", function (event) {
       alert("Error: " + errorMessage);
     });
 });
+
+function sendVerificationEmail(user) {
+  user
+    .sendEmailVerification()
+    .then(function () {
+      // Email verification sent.
+      console.log("Verification email sent.");
+    })
+    .catch(function (error) {
+      // An error happened.
+      console.error("Error sending verification email:", error.message);
+    });
+}
 
 function saveUserData(uid, firstName, lastName, email, password) {
   // Save user data to database
