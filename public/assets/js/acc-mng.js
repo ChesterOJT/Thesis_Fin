@@ -11,14 +11,13 @@ const firebaseConfig = {
   measurementId: "G-TTHR04NDRL",
 };
 
-// Fetch all users from Realtime Database and populate table
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // Fetch all users from Realtime Database and populate table
-// Function to fetch and update user list
-function fetchAndUpdateUserList() {
+// Function to fetch and update user list with optional search term
+function fetchAndUpdateUserList(searchTerm = "") {
   const userList = document.getElementById("userList");
   userList.innerHTML = ""; // Clear existing content before updating
 
@@ -30,15 +29,23 @@ function fetchAndUpdateUserList() {
       for (const userId in users) {
         if (Object.hasOwnProperty.call(users, userId)) {
           const user = users[userId];
-          const row = document.createElement("tr");
-          row.innerHTML = `
+          // Check if user matches the search term
+          if (
+            user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+          ) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
               <td>${user.email}</td>
               <td>${user.firstName}</td>
               <td>${user.password}</td>
               <td>
-              <button onclick="editUser('${userId}', '${user.email}', '${user.password}')">Edit</button><button onclick="deleteUser('${userId}')">Delete</button></td>
+                <button onclick="editUser('${userId}', '${user.email}', '${user.password}')">Edit</button>
+                <button onclick="deleteUser('${userId}')">Delete</button>
+              </td>
             `;
-          userList.appendChild(row);
+            userList.appendChild(row);
+          }
         }
       }
     })
@@ -63,6 +70,7 @@ function deleteUser(userId) {
       });
   }
 }
+
 function editUser(userId, email, password) {
   const newEmail = prompt("Enter new email:", email);
   const newPassword = prompt("Enter new password:", password);
@@ -85,6 +93,19 @@ function editUser(userId, email, password) {
   }
 }
 
+// Event listener for search bar input
+document.addEventListener("DOMContentLoaded", function () {
+  const searchBar = document.getElementById("searchBar");
+
+  searchBar.addEventListener("input", function () {
+    const searchTerm = searchBar.value;
+    fetchAndUpdateUserList(searchTerm); // Call the function to fetch and update user list with search term
+  });
+
+  // Initial fetch and update user list
+  fetchAndUpdateUserList();
+});
+
 // Event listener for refresh button
 document.addEventListener("DOMContentLoaded", function () {
   const refreshBtn = document.getElementById("refreshBtn");
@@ -92,9 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
   refreshBtn.addEventListener("click", function () {
     fetchAndUpdateUserList(); // Call the function to fetch and update user list
   });
-
-  // Initial fetch and update user list
-  fetchAndUpdateUserList();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -112,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Initialize Firebase
-
 const auth = firebase.auth();
 
 // Register event listener for authentication state changes
@@ -176,7 +193,7 @@ function saveUserData(uid, firstName, lastName, email, password) {
   // Save user data to database
   firebase
     .database()
-    .ref("users/" + firstName)
+    .ref("users/" + uid)
     .set({
       firstName: firstName,
       lastName: lastName,

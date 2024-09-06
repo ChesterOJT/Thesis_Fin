@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Bill</title>
+    <link rel="stylesheet" href="../assets/css/report.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="l-head">
+        <p>Chester A. Pabiona</p>
+        <p>chesterpabiona4@gmail.com</p>
+        <p>Chester</p>
+      </div>
+      <div class="r-header">
+        <div>
+          <p>Pup Paranaque Business</p>
+          <p>Sto.Nino Paranaque</p>
+        </div>
+        <div>
+          <img src="../assets/img/logo.png" alt="Logo" />
+        </div>
+      </div>
+    </div>
+    <div class="main-container">
+      <div class="left-container">
+        <div class="consumption">
+          <h1>Total Consumption</h1>
+          <p>Consumption Period:</p>
+          <h3>01 July 2024 to 31 July 2024</h3>
+          <p>Today's Consumption:</p>
+          <h3>1000 KWH</h3>
+        </div>
+        <h3>Your Monthly Consumption</h3>
+        <div class="chart-container">
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="battery-voltage">
+          <h1>Battery Voltage</h1>
+          <p>Current Voltage:</p>
+          <h3 id="voltage1"></h3>
+        </div>
+        <h3>24 Hours Battery Voltage</h3>
+        <div class="chart-container">
+          <canvas id="lineChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>&copy; 2024 Pup Paranaque Business. All rights reserved.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="../assets/js/report.js"></script>
+  </body>
+</html>

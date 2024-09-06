@@ -13,26 +13,64 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messagesRef = firebase.database().ref("messages");
-function sendMessage() {
-  const messageInput = document.getElementById("messageInput");
-  const message = messageInput.value;
-  messageInput.value = ""; // Clear the input after sending
+document.getElementById("adminSelect").addEventListener("change", function () {
+  localStorage.setItem("recipientAdmin", this.value); // Store selected admin email in localStorage
+});
 
-  const userEmail = localStorage.getItem("userEmail"); // Retrieve user email from localStorage
+function sendMessage() {
+  const customerEmail = localStorage.getItem("userEmail");
+  const adminEmail = localStorage.getItem("recipientAdmin");
+  if (!adminEmail) {
+    alert("No admin selected!");
+    return;
+  }
+
+  const messageText = document.getElementById("messageInput").value;
+  const conversationId = generateConversationId(customerEmail, adminEmail); // Now sanitizes the email
+  const timestamp = new Date().toISOString();
+  const messageKey = timestamp.replace(/[^0-9]/g, ""); // Use timestamp as key
 
   const messageObject = {
-    email: userEmail, // Include email in the message object
-    text: message,
-    timestamp: new Date().toISOString(),
+    sender: customerEmail,
+    text: messageText,
+    timestamp: timestamp,
   };
 
-  messagesRef.push(messageObject);
+  const newMessageRef = firebase
+    .database()
+    .ref("conversations/" + conversationId + "/messages/" + messageKey);
+  newMessageRef.set(messageObject);
 }
-// Listen for new messages
-messagesRef.on("child_added", function (snapshot) {
-  const messageData = snapshot.val();
-  const messageElement = document.createElement("div");
-  messageElement.textContent = messageData.email + ": " + messageData.text;
-  document.getElementById("messages").appendChild(messageElement);
+
+// Example usage, assuming the sender is the customer and the input for the message is available
+document.getElementById("sendButton").addEventListener("click", function () {
+  const customerEmail = localStorage.getItem("userEmail"); // Assuming customer's email is stored
+  const messageText = document.getElementById("messageInput").value;
+  sendMessage(customerEmail, messageText);
 });
+function listenForMessages() {
+  const customerEmail = localStorage.getItem("userEmail");
+  const adminEmail = localStorage.getItem("recipientAdmin");
+  if (!adminEmail) {
+    console.log("No admin selected for listening!");
+    return;
+  }
+
+  const conversationId = generateConversationId(customerEmail, adminEmail);
+  const messagesRef = firebase
+    .database()
+    .ref("conversations/" + conversationId + "/messages");
+  messagesRef.on("child_added", function (snapshot) {
+    const messageData = snapshot.val();
+    const messageElement = document.createElement("div");
+    messageElement.textContent = messageData.sender + ": " + messageData.text;
+    document.getElementById("messages").appendChild(messageElement);
+  });
+}
+
+function generateConversationId(senderEmail, recipientEmail) {
+  // Replace periods with underscores to prevent Firebase path errors
+  return senderEmail.replace(/\./g, "_");
+}
+// Start listening when the page loads or when the admin is selected
+listenForMessages();

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/registrationpage.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <title>Register</title>
+  </head>
+  <body>
+    <div class="registermain">
+      <div class="registercontainer">
+        <div>
+          <h2>Registration Form</h2>
+        </div>
+        <form id="registerForm">
+          <div class="firstNamelastName">
+            <div class="inputBox">
+              <input type="text" id="firstName" required="required" />
+              <span>First Name</span>
+            </div>
+            <div class="inputBox">
+              <input type="text" id="lastName" required="required" />
+              <span>Last Name</span>
+            </div>
+          </div>
+          <div class="inputBox">
+            <input type="text" id="email" required="required" />
+            <span>Email</span>
+          </div>
+          <div class="inputBox">
+            <input type="password" id="password" required="required" />
+            <span>Password</span>
+          </div>
+          <div class="inputBox">
+            <input type="password" id="confirmPassword" required="required" />
+            <span>Confirm Password</span>
+          </div>
+          <div class="checkBox">
+            <input class="checkBox2" type="checkbox" required="required" />
+            <label>I agree to <a href="#"> terms & conditions</a></label>
+          </div>
+          <div class="registerbutton">
+            <button class="regbtn" type="submit">Sign Up</button>
+          </div>
+          <div class="registerlogIn">
+            <p>Already have an account? <a href="#">Login?</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="../assets/js/registration-page.js"></script>
+  </body>
+</html>

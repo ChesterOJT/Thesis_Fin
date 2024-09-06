@@ -11,7 +11,7 @@
     />
 
     <!--========== CSS ==========-->
-    <link rel="stylesheet" href="./css/messages-admin.css" />
+    <link rel="stylesheet" href="./css/cust-profile.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/boxicons/2.0.7/css/boxicons.min.css"
@@ -66,14 +66,9 @@
                 <div class="nav__dropdown-collapse">
                   <div class="nav__dropdown-content">
                     <a
-                      href="./assets/account-management.html"
+                      href="../assets/cust-prof2.html"
                       class="nav__dropdown-item"
                       >My Account</a
-                    >
-                    <a
-                      href="./account-management.html"
-                      class="nav__dropdown-item"
-                      >User Accounts</a
                     >
                   </div>
                 </div>
@@ -103,22 +98,57 @@
 
     <!--========== CONTENTS ==========-->
     <main>
-      <div class="message-container">
-        <!-- Dropdown to select different conversations -->
-        <select id="conversationSelect">
-          <option value="">Select a conversation</option>
-          <!-- Dynamically filled options -->
-        </select>
-
-        <div id="messages" class="messages"></div>
-
-        <textarea
-          id="messageInput"
-          class="message-input"
-          placeholder="Type your message here..."
-        ></textarea>
-        <button onclick="sendMessage()" class="send-button">Send</button>
+      <div class="container">
+        <div class="profile-card">
+          <div class="profile" id="profile-view">
+            <div class="avatar">
+              <img src="./img/PUP-removebg-preview.png" alt="Avatar" />
+            </div>
+            <h2>John Doe</h2>
+            <p>Full Stack Developer</p>
+            <p>Bay Area, San Francisco, CA</p>
+            <button class="follow">Follow</button>
+            <button class="message">Message</button>
+            <button class="edit" onclick="showEditView()">Edit</button>
+            <div class="social-links">
+              <p>
+                <strong>Website</strong><br /><a href="https://bootdey.com"
+                  >https://bootdey.com</a
+                >
+              </p>
+              <p><strong>Github</strong><br />bootdey</p>
+              <p><strong>Twitter</strong><br />@bootdey</p>
+              <p><strong>Instagram</strong><br />bootdey</p>
+              <p><strong>Facebook</strong><br />bootdey</p>
+            </div>
+          </div>
+          <div class="details" id="edit-view" style="display: none">
+            <div class="info">
+              <div class="edit-avatar">
+                <img src="./img/PUP-removebg-preview.png" alt="Avatar" />
+              </div>
+              <label for="name">Full Name</label>
+              <input type="text" id="name" value="John Doe" />
+              <label for="email">Email</label>
+              <input type="email" id="email" value="john@example.com" />
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" value="(239) 816-9029" />
+              <label for="mobile">Mobile</label>
+              <input type="tel" id="mobile" value="(320) 380-4539" />
+              <label for="address">Address</label>
+              <input
+                type="text"
+                id="address"
+                value="Bay Area, San Francisco, CA"
+              />
+            </div>
+            <button class="save" onclick="showProfileView()">
+              Save Changes
+            </button>
+          </div>
+        </div>
       </div>
+      <script src="./js/cust-prof.js"></script>
     </main>
 
     <!--========== Scripts ==========-->
@@ -134,7 +164,7 @@
       nomodule
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
-    <script src="./js/messages-admin.js"></script>
+    <script src="./js/acc-mng.js"></script>
     <script src="./js/sidebar.js"></script>
   </body>
 </html>

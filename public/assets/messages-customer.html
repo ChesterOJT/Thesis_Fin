@@ -70,11 +70,6 @@
                       class="nav__dropdown-item"
                       >My Account</a
                     >
-                    <a
-                      href="./account-management.html"
-                      class="nav__dropdown-item"
-                      >User Accounts</a
-                    >
                   </div>
                 </div>
               </div>
@@ -104,13 +99,18 @@
     <!--========== CONTENTS ==========-->
     <main>
       <div class="message-container">
+        <select id="adminSelect">
+          <option value="admin@gmail.com">Admin 1</option>
+          <option value="admin1@gmail.com">Admin 2</option>
+        </select>
+
         <div id="messages" class="messages"></div>
         <textarea
           id="messageInput"
           class="message-input"
           placeholder="Type your message here..."
         ></textarea>
-        <button onclick="sendMessage()" class="send-button">Send</button>
+        <button id="sendButton" class="send-button">Send</button>
       </div>
     </main>
 

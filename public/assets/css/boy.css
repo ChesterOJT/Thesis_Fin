@@ -1,0 +1,111 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.profile-card {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  width: 800px;
+}
+
+.profile {
+  background-color: #f7f7f7;
+  padding: 20px;
+  text-align: center;
+  width: 300px;
+  border-right: 1px solid #e0e0e0;
+}
+
+.avatar {
+  margin-bottom: 20px;
+}
+
+.avatar img {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.profile h2 {
+  margin: 10px 0 5px 0;
+  font-size: 24px;
+}
+
+.profile p {
+  margin: 5px 0;
+  color: #777;
+}
+
+button {
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.follow {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.message {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.social-links p {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.social-links a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.details {
+  padding: 20px;
+  width: 500px;
+}
+
+.info label {
+  display: block;
+  margin: 10px 0 5px 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.info input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.info div {
+  text-align: center;
+}
+
+.save {
+  background-color: #007bff;
+  color: #fff;
+  width: 100%;
+  margin-top: 20px;
+}

@@ -13,28 +13,81 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messagesRef = firebase.database().ref("messages");
-function sendMessage() {
-  const messageInput = document.getElementById("messageInput");
-  const message = messageInput.value;
-  messageInput.value = ""; // Clear the input after sending
-
-  // Retrieve user email from localStorage
-  const userEmail = localStorage.getItem("userEmail") || "Unknown"; // Default to 'Unknown' if not found
-
-  const messageObject = {
-    email: userEmail, // Use the email from localStorage
-    text: message,
-    timestamp: new Date().toISOString(),
-  };
-
-  messagesRef.push(messageObject);
+function listenForConversations() {
+  const conversationsRef = firebase.database().ref("conversations");
+  conversationsRef.on("value", function (snapshot) {
+    const conversations = snapshot.val();
+    const select = document.getElementById("conversationSelect");
+    select.innerHTML = ""; // Clear existing options
+    for (let id in conversations) {
+      let option = document.createElement("option");
+      option.value = id;
+      option.textContent = id; // Use conversation ID or any identifier
+      select.appendChild(option);
+    }
+  });
 }
 
-// Listen for new messages
-messagesRef.on("child_added", function (snapshot) {
-  const messageData = snapshot.val();
-  const messageElement = document.createElement("div");
-  messageElement.textContent = messageData.email + ": " + messageData.text;
-  document.getElementById("messages").appendChild(messageElement);
-});
+document
+  .getElementById("conversationSelect")
+  .addEventListener("change", function () {
+    const selectedConversation = this.value;
+    listenForMessages(selectedConversation);
+  });
+
+let currentMessagesRef = null; // This variable will hold the current Firebase reference to messages
+
+function listenForMessages(conversationId) {
+  // Clear existing messages display
+  document.getElementById("messages").innerHTML = "";
+
+  if (currentMessagesRef) {
+    currentMessagesRef.off("child_added");
+  }
+
+  currentMessagesRef = firebase
+    .database()
+    .ref("conversations/" + conversationId + "/messages");
+  currentMessagesRef.on("child_added", function (snapshot) {
+    const messageData = snapshot.val();
+    const messageElement = document.createElement("div");
+    messageElement.textContent = messageData.sender + ": " + messageData.text;
+    document.getElementById("messages").appendChild(messageElement);
+  });
+}
+
+function sendMessage() {
+  const conversationId = document.getElementById("conversationSelect").value;
+  if (!conversationId) {
+    alert("No conversation selected!");
+    return;
+  }
+  console.log("Sending to conversation ID:", conversationId); // Debug log
+
+  const messageInput = document.getElementById("messageInput");
+  const messageText = messageInput.value;
+  messageInput.value = ""; // Clear the input after sending
+
+  const userEmail = localStorage.getItem("userEmail") || "Unknown";
+  const timestamp = new Date().toISOString();
+  const messageKey = timestamp.replace(/[^0-9]/g, "");
+
+  const messageObject = {
+    sender: userEmail,
+    text: messageText,
+    timestamp: timestamp,
+  };
+
+  const newMessageRef = firebase
+    .database()
+    .ref("conversations/" + conversationId + "/messages/" + messageKey);
+  newMessageRef
+    .set(messageObject)
+    .then(() => {
+      console.log("Message sent to:", conversationId); // Confirm message path
+    })
+    .catch((error) => {
+      console.error("Error sending message:", error);
+    });
+}
+listenForConversations(); // Initial call to load conversations

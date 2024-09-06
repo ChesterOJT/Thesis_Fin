@@ -1,0 +1,98 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #000;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.header p {
+  margin: 0;
+}
+
+.header img {
+  width: 100px;
+}
+
+.l-head,
+.r-header {
+  width: 50%;
+}
+
+.l-head p,
+.r-header p {
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.left-container,
+.right-container {
+  width: 48%;
+}
+
+.left-container h1,
+.right-container h1 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.left-container p,
+.right-container p {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.consumption,
+.battery-voltage {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+canvas {
+  display: block;
+  height: 300px;
+  max-width: 100%;
+}
+.r-header {
+  display: flex;
+  justify-content: space-around;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #555;
+  padding: 10px 0;
+  background-color: #ffffff;
+}

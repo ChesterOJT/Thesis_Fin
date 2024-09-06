@@ -2,52 +2,57 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize Firebase
   // NOTE: Replace the following config object with your Firebase project's configuration.
   const firebaseConfig = {
-    apiKey: "AIzaSyDFktBVAU-JFluYqI1-iZTX_2OhOnFcxO8",
-    authDomain: "admin-cc5d2.firebaseapp.com",
+    apiKey: "AIzaSyAJnBJDnb4F6yfRUAZecsX-GPiXmrO6K3o",
+    authDomain: "working-ba4f3.firebaseapp.com",
+    projectId: "working-ba4f3",
+    storageBucket: "working-ba4f3.appspot.com",
     databaseURL:
-      "https://admin-cc5d2-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "admin-cc5d2",
-    storageBucket: "admin-cc5d2.appspot.com",
-    messagingSenderId: "668428310619",
-    appId: "1:668428310619:web:6352a58dbb69ff9964c77e",
-    measurementId: "G-RWFEF9JGMZ",
+      "https://working-ba4f3-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    messagingSenderId: "170127063382",
+    appId: "1:170127063382:web:d90e7415f30a11bb00bef7",
+    measurementId: "G-TTHR04NDRL",
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+  const dbRef = firebase.database().ref();
 
-  // Reference to the form element
   const loginForm = document.getElementById("loginform");
-
-  // Listen for form submit
   loginForm.addEventListener("submit", function (e) {
-    // Prevent the default form submit behavior
     e.preventDefault();
-
-    // Get the email and password from the form
     const email = document.querySelector('input[name="username"]').value;
     const password = document.querySelector('input[name="password"]').value;
 
-    // Sign in with email and password
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in
-        const userEmail = userCredential.user.email;
-        localStorage.setItem("userEmail", userEmail); // Store email in localStorage
+    // Convert email to a valid Firebase key (e.g., replace '.' with ',')
+    const emailKey = email.replace(/\./g, ",");
 
-        // Redirect to the main page or dashboard
-        window.location.href = "./../home/home-admin.html";
+    // Hash the password input to compare with the database
+    const hashedPassword = hashPassword(password); // You need to implement hashPassword
+
+    // Query the database for the user
+    dbRef
+      .child("admin/" + emailKey)
+      .once("value", (snapshot) => {
+        if (snapshot.exists()) {
+          const user = snapshot.val();
+          if (hashedPassword === user.password) {
+            localStorage.setItem("userEmail", email); // Store email in localStorage
+            window.location.href = "./../home/home-admin.html"; // Redirect
+          } else {
+            alert("Incorrect password");
+          }
+        } else {
+          alert("No user found with this email");
+        }
       })
       .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // Display an error message to the user or log it
-        console.error("Error signing in:", errorCode, errorMessage);
-        alert("Error signing in: " + errorMessage); // Simple error alert, consider a more user-friendly approach
+        console.error("Database query error:", error);
+        alert("Error: " + error.message);
       });
   });
 });
+function hashPassword(password) {
+  return btoa(password); // Converts the password string to base64
+}
 document.getElementById("textInput").addEventListener("focus", function () {
   document.getElementById("envelopeIcon").style.color = "lightblue";
 });

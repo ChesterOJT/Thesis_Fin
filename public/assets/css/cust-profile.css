@@ -45,7 +45,7 @@
   box-sizing: border-box;
 }
 
-body {
+main {
   margin: var(--header-height) 0 0 0;
   padding: 1rem 1rem 0;
   font-family: var(--body-font);
@@ -56,145 +56,6 @@ body {
 .container {
   position: relative;
   width: 100%;
-}
-
-/*========== Volts Watt Cards ==========*/
-.cardBox {
-  position: relative;
-  width: 100%;
-  padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 30px;
-}
-
-.cardBox .card {
-  position: relative;
-  background: var(--white);
-  padding: 30px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-}
-
-.cardBox .card .numbers {
-  position: relative;
-  font-weight: 500;
-  font-size: 2.5rem;
-  color: var(--blue);
-}
-
-.cardBox .card .cardName {
-  color: var(--black2);
-  font-size: 1.1rem;
-  margin-top: 5px;
-}
-
-.cardBox .card .iconBx {
-  font-size: 3.5rem;
-  color: var(--black2);
-}
-
-.cardBox .card:hover {
-  background: var(--blue);
-}
-.cardBox .card:hover .numbers,
-.cardBox .card:hover .cardName,
-.cardBox .card:hover .iconBx {
-  color: white;
-  font-weight: 900;
-  text-shadow: darkblue;
-}
-.cardHeader {
-  font-size: small;
-}
-.cardBox .card:hover {
-  background: rgb(203, 55, 1);
-}
-#timerElement {
-  font-size: 5vw; /* Adjust this value as needed */
-  white-space: nowrap; /* Prevent text from wrapping */
-}
-
-/*========== Battery Level ==========*/
-/* CSS for battery container */
-.battery-container {
-  width: 120px;
-  height: 50px;
-  border-radius: 10px;
-}
-
-/* CSS for battery */
-.battery {
-  width: 100%;
-  height: 100%;
-  background-color: #f3f3f3;
-  border: 1px solid #ccc;
-  position: relative;
-}
-
-/* CSS for battery level */
-.level {
-  height: 100%; /* Adjust the height of the battery level */
-}
-
-/* CSS for each battery level */
-.level-1 {
-  width: 25%; /* Width of the bar for level 1 (25%) */
-  background-color: #4caf50; /* Color of the battery level for level 1 */
-}
-
-.level-2 {
-  width: 50%;
-  background-color: #ffeb3b; /* Color of the battery level for level 2 */
-}
-
-.level-3 {
-  width: 75%;
-  background-color: #ff9800; /* Color of the battery level for level 3 */
-}
-
-.level-4 {
-  width: 100%;
-  background-color: #f44336; /* Color of the battery level for level 4 */
-}
-
-/*========== Charts Data ==========*/
-.bchart {
-  height: 50px;
-}
-.details {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-
-  height: 300px;
-
-  /* margin-top: 10px; */
-}
-
-.recentOrders {
-  position: relative;
-  display: grid;
-  min-height: 500px;
-  background: var(--white);
-  padding: 20px;
-  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  margin: 20px;
-}
-.recentCustomers {
-  position: relative;
-  display: grid;
-  min-height: 500px;
-  padding: 20px;
-  background: var(--white);
-  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  height: 50px;
-  margin: 20px;
 }
 
 h3 {
@@ -210,13 +71,124 @@ img {
   height: auto;
 }
 
-@media (max-width: 500px) {
-  .cardBox {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .details {
-    grid-template-columns: 1fr;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.profile-card {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+
+  width: 800px;
+}
+
+.profile,
+.details {
+  padding: 20px;
+}
+
+.profile {
+  background-color: #f7f7f7;
+  text-align: center;
+  width: 100%;
+  border-right: 1px solid #e0e0e0;
+}
+
+.avatar {
+  margin-bottom: 20px;
+}
+
+.avatar img {
+  width: 100px;
+  border-radius: 50%;
+}
+.edit-avatar img {
+  width: 100px;
+  border-radius: 50%;
+  text-align: center;
+}
+.profile h2 {
+  margin: 10px 0 5px 0;
+  font-size: 24px;
+}
+
+.profile p {
+  margin: 5px 0;
+  color: #777;
+}
+
+button {
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.follow {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.message {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.edit {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+.social-links p {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.social-links a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.details {
+  width: 100%;
+}
+
+.info label {
+  display: block;
+  margin: 10px 0 5px 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.info input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.save {
+  background-color: #007bff;
+  color: #fff;
+  width: 100%;
+  margin-top: 20px;
 }
 
 /*========== HEADER ==========*/
@@ -280,106 +252,6 @@ img {
   cursor: pointer;
 }
 
-@media print {
-  body {
-    font-family: "Arial", sans-serif;
-    background-color: #ffffff;
-    color: #333;
-    margin: 0;
-    padding: 20px;
-    line-height: 1.6;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #000;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-  }
-
-  .header p {
-    margin: 0;
-  }
-
-  .header img {
-    width: 100px;
-  }
-
-  .l-head,
-  .r-header {
-    width: 50%;
-  }
-
-  .l-head p,
-  .r-header p {
-    margin: 5px 0;
-    font-weight: bold;
-  }
-
-  .main-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-
-  .left-container,
-  .right-container {
-    width: 48%;
-  }
-
-  .left-container h1,
-  .right-container h1 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-  }
-
-  .left-container p,
-  .right-container p {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-  }
-
-  h3 {
-    font-size: 1rem;
-    margin-bottom: 10px;
-  }
-
-  .consumption,
-  .battery-voltage {
-    padding: 10px;
-    margin-bottom: 20px;
-  }
-
-  .chart-container {
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  canvas {
-    display: block;
-    height: 300px;
-    max-width: 100%;
-  }
-  .r-header {
-    display: flex;
-    justify-content: space-around;
-  }
-  footer {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    text-align: center;
-    font-size: 0.8rem;
-    color: #555;
-    padding: 10px 0;
-    background-color: #ffffff;
-  }
-}
 /*========== NAV ==========*/
 .nav {
   position: fixed;

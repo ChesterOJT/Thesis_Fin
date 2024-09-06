@@ -216,17 +216,6 @@ dataRef2.on(
     console.error("Error fetching data:", error);
   }
 );
-dataRef3.on(
-  "value",
-  function (snapshot) {
-    const tot = snapshot.val();
-    document.getElementById("tot-power").textContent = tot + " watts";
-    console.log("Total Power:", tot);
-  },
-  function (error) {
-    console.error("Error fetching data:", error);
-  }
-);
 
 // Function to display countdown timer
 function updateBatteryLevel(voltage) {
@@ -248,7 +237,11 @@ function updateBatteryLevel(voltage) {
   batteryPercentage.textContent = percentage.toFixed(2) + "%";
 }
 
+// Function to calculate uptime in seconds
 function calculateUptimeSeconds(voltage, watt) {
+  if (watt <= 0) {
+    return -1; // Return -1 to indicate no consumption
+  }
   const minVoltage = 11.8; // 0%
   const maxVoltage = 12.7; // 100%
   const usableCapacity = 144 * 0.5; // 72 Wh
@@ -258,7 +251,7 @@ function calculateUptimeSeconds(voltage, watt) {
   return Math.round(uptimeSeconds);
 }
 
-// Function to display countdown timer in minutes and seconds
+// Function to display countdown timer
 function displayCountdownTimer(uptimeSeconds) {
   const timerElement = document.getElementById("timer");
   const alarmThreshold = 300; // 5 minutes threshold
@@ -266,6 +259,11 @@ function displayCountdownTimer(uptimeSeconds) {
 
   if (window.timerInterval) {
     clearInterval(window.timerInterval);
+  }
+
+  if (uptimeSeconds === -1) {
+    timerElement.textContent = "No Consumption";
+    return;
   }
 
   timerElement.textContent = formatTime(uptimeSeconds);
@@ -288,6 +286,9 @@ function displayCountdownTimer(uptimeSeconds) {
 
 // Function to format time (converts seconds to MM:SS format)
 function formatTime(seconds) {
+  if (seconds < 0) {
+    return "No Load";
+  }
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
@@ -400,4 +401,66 @@ function updateBatteryLevel(volt) {
   );
   // Add class based on the number of bars
   batteryLevelElement.classList.add("level-" + bars);
+}
+// Function to round numbers to a specified number of decimal places
+function roundNumber(num, decimalPlaces) {
+  var factor = Math.pow(10, decimalPlaces);
+  return Math.round(num * factor) / factor;
+}
+
+function updateDateAndUser() {
+  const currentDate = new Date();
+  const dateString = currentDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  document.getElementById("current-date").textContent = dateString;
+
+  // Assuming you already fetch the user's name somewhere
+  const currentUser = localStorage.getItem("username"); // Just an example, adjust as needed
+  document.getElementById("current-user").textContent =
+    currentUser || "Unknown User";
+}
+
+// Call this function on page load or before printing
+updateDateAndUser();
+
+async function generateReport() {
+  try {
+    // Fetch the content of the report HTML file using the path constant
+    const response = await fetch(reportPath);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const reportContent = await response.text();
+
+    // Get the iframe element
+    const iframe = document.getElementById("print-iframe");
+
+    // Write the fetched content into the iframe
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write(reportContent);
+    doc.close();
+
+    // Ensure the content is loaded before printing
+    setTimeout(() => {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+    }, 500); // Adjust the timeout as needed
+  } catch (error) {
+    console.error("Error fetching the report:", error);
+  }
+}
+function generateReport() {
+  const reportWindow = window.open("./report.html", "_blank");
+  if (reportWindow) {
+    reportWindow.onload = function () {
+      reportWindow.print();
+    };
+  } else {
+    alert("Please allow pop-ups for this site to generate the report.");
+  }
 }
